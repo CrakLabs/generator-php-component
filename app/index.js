@@ -1,80 +1,103 @@
-/**
- * Created by bcolucci on 11/26/14.
- */
+// Created by bcolucci on 11/26/14.
 'use strict';
 
 var generators = require('yeoman-generator'),
-  util = require('util'),
-  path = require('path'),
   sh = require('execSync');
 
-var getGitConfig = function (n) {
-  return sh.exec('git config --get ' + n).stdout.trim();
-};
-
-var defaultAuthorName = getGitConfig('user.name'),
-  defaultAuthorEmail = getGitConfig('user.email'),
-  gitRemoteUrl = getGitConfig('remote.origin.url');
-
-var defaultComponentID = gitRemoteUrl.split('/').pop().split('.').shift(),
-  defaultComponentName = defaultComponentID.split('-').map(function (part) {
-    return part.charAt(0).toUpperCase() + part.slice(1);
-  }).join('');
+var configs = {};
 
 var PhpComponentGenerator = generators.Base.extend({
-  prompting: function () {
+
+  init: function () {
+    this.log("\n~~~~ PHP Component Generator ~~~~");
+  },
+
+  prompt_author_infos: function () {
     var done = this.async();
     this.prompt([
-      {
-        type: 'input',
-        name: 'authorName',
-        message: 'Author name (ex: John Doe):',
-        default: defaultAuthorName
-      },
-      {
-        type: 'input',
-        name: 'authorEmail',
-        message: 'Author email (ex: johndoe@crakmedia.com):',
-        default: defaultAuthorEmail
-      },
-      {
-        type: 'input',
-        name: 'componentId',
-        message: 'Component ID:',
-        default: defaultComponentID
-      },
-      {
-        type: 'input',
-        name: 'componentName',
-        message: 'Component name:',
-        default: defaultComponentName
-      }
+      {type: 'input', name: 'name', message: 'Author name:', default: 'John Doe'},
+      {type: 'input', name: 'email', message: 'Author email:', default: 'johndoe@crakmedia.com'}
     ], function (answers) {
-      this.config.set('answers', answers);
+      configs.authorName = answers.name;
+      configs.authorEmail = answers.email;
       done();
     }.bind(this));
   },
+
+  prompt_component_infos: function () {
+    var done = this.async();
+    this.prompt([
+      {type: 'input', name: 'id', message: 'Component ID:', default: 'awesome-stuff'},
+    ], function (answers) {
+      configs.componentId = answers.id;
+      var defaultComponentName = answers.id.split('-').map(function (p) {
+        return p.charAt(0).toUpperCase() + p.slice(1);
+      }).join('');
+      this.prompt([
+        {type: 'input', name: 'name', message: 'Component name:', default: defaultComponentName},
+      ], function (answers) {
+        configs.componentName = answers.name;
+        done();
+      }.bind(this));
+
+    }.bind(this));
+  },
+
+  prompt_git_infos: function () {
+    var done = this.async();
+    this.prompt([
+      {type: 'input', name: 'url', message: 'Git repository URL:'}
+    ], function (answers) {
+      configs.gitURL = answers.url;
+      done();
+    }.bind(this));
+  },
+
+  prompt_destination_folder: function () {
+    var defaultDestFolder = configs.gitURL ? configs.gitURL.split('/').pop().split('.').shift() + '-component' : null;
+    var done = this.async();
+    this.prompt(
+      {type: 'input', name: 'folder', message: 'Destination folder:', default: defaultDestFolder},
+      function (answers) {
+        configs.destFolder = answers.folder;
+        done();
+      }.bind(this));
+  },
+
   writing: function () {
-    var answers = this.config.get('answers');
 
-    answers.srcNamespace = 'Crak\\Component\\' + answers.componentName;
-    answers.testNamespace = 'Crak\\Component\\' + answers.componentName + '\\Test';
+    configs.srcNamespace = 'Crak\\Component\\' + configs.componentName;
+    configs.testNamespace = 'Crak\\Component\\' + configs.componentName + '\\Test';
 
-    this.copy('gitignore', '.gitignore');
+    this.destinationRoot(configs.destFolder);
+
     this.copy('phpunit.xml', 'phpunit.xml.dist');
 
-    this.template('composer.json', 'composer.json', answers);
-    this.template('SampleClass.php.txt', 'src/SampleClass.php', answers);
-    this.template('SampleUnitTest.php.txt', 'test/Unit/SampleUnitTest.php', answers);
+    this.template('composer.json', 'composer.json', configs);
+    this.template('README.md', 'README.md', configs);
+    this.template('SampleClass.php.txt', 'src/SampleClass.php', configs);
+    this.template('SampleUnitTest.php.txt', 'test/Unit/SampleUnitTest.php', configs);
+
+    if (configs.gitURL.length > 0) {
+      this.copy('gitignore', '.gitignore');
+    }
   },
+
   end: function () {
-    this.log(sh.run('rm .yo-rc.json'));
-    this.log(sh.run("git add * .gitignore"));
-    this.log(sh.run("git commit -m'Initial commit'"));
-    this.log(sh.run("git push origin master"));
     this.log(sh.run('composer install'));
-    this.log(sh.run('phpunit'));
+
+    if (configs.gitURL.length > 0) {
+      var gitCommandToInit = "" +
+        "\n\tcd " + this.destinationRoot() +
+        "\n\tgit init" +
+        "\n\tgit add --all" +
+        "\n\tgit commit -m 'Initial Commit'" +
+        "\n\tgit remote add origin " + configs.gitURL +
+        "\n\tgit push origin master\n";
+      this.log('~~~~ In order to init a new Git repository ~~~~' + gitCommandToInit);
+    }
   }
+
 });
 
 module.exports = PhpComponentGenerator;
