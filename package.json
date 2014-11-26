@@ -1,0 +1,14 @@
+{
+  "name": "generator-php-component",
+  "version": "0.1.0",
+  "description": "Generates a PHP component",
+  "keywords": [
+    "yeoman-generator",
+    "php",
+    "component"
+  ],
+  "dependencies": {
+    "yeoman-generator": "~0.17.7",
+    "execSync": "1.0.2"
+  }
+}
