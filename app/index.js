@@ -28,13 +28,13 @@ var PhpComponentGenerator = generators.Base.extend({
       {
         type: 'input',
         name: 'authorName',
-        message: 'Author name (ex: Brice Colucci):',
+        message: 'Author name (ex: John Doe):',
         default: defaultAuthorName
       },
       {
         type: 'input',
         name: 'authorEmail',
-        message: 'Author email (ex: bcolucci@crakmedia.com):',
+        message: 'Author email (ex: johndoe@crakmedia.com):',
         default: defaultAuthorEmail
       },
       {
