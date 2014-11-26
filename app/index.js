@@ -68,7 +68,12 @@ var PhpComponentGenerator = generators.Base.extend({
     this.template('SampleUnitTest.php.txt', 'test/Unit/SampleUnitTest.php', answers);
   },
   end: function () {
-    sh.exec('composer install');
+    this.log(sh.run('rm .yo-rc.json'));
+    this.log(sh.run("git add * .gitignore"));
+    this.log(sh.run("git commit -m'Initial commit'"));
+    this.log(sh.run("git push origin master"));
+    this.log(sh.run('composer install'));
+    this.log(sh.run('phpunit'));
   }
 });
 

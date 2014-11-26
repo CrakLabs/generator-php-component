@@ -14,6 +14,6 @@ namespace <%= testNamespace %>\Unit;
 class SampleUnitTest extends \PHPUnit_Framework_TestCase {
 
     public function testShouldDoSomething() {
-        $this->markTestSkipped();
+        $this->markTestSkipped('TODO');
     }
 } 
