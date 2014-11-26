@@ -7,6 +7,6 @@ TODO
 
      "require": {
        ...
-       "crakmedia/<%= componentId %>-component": "~x.y"
+       "crakmedia/<%= componentId %>-component": "~0.1"
        ...
      }

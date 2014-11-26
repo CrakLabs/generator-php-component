@@ -97,13 +97,13 @@ var PhpComponentGenerator = generators.Base.extend({
 
     if (configs.gitURL.length > 0) {
       var gitCommandToInit = "" +
-        "\n\tcd " + this.destinationRoot() +
-        "\n\tgit init" +
-        "\n\tgit add --all" +
-        "\n\tgit commit -m 'Initial Commit'" +
-        "\n\tgit remote add origin " + configs.gitURL +
-        "\n\tgit push origin master\n";
-      this.log('~~~~ In order to init a new Git repository ~~~~' + gitCommandToInit);
+        "\n\tcd " + this.destinationRoot() + '\\' +
+        " && git init" + '\\' +
+        " && git add --all" + '\\' +
+        " && git commit -m 'Initial Commit'" + '\\' +
+        " && git remote add origin " + configs.gitURL + '\\' +
+        " && git push origin master\n";
+      this.log('~~~~ In order to init a new Git repository (copyu/paste) ~~~~\n' + gitCommandToInit);
     }
   }
 
