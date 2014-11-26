@@ -6,6 +6,14 @@ var generators = require('yeoman-generator'),
 
 var configs = {};
 
+var getGitConfig = function (n) {
+  return sh.exec('git config --get ' + n).stdout.trim();
+};
+
+var defaultAuthorName = getGitConfig('user.name'),
+  defaultAuthorEmail = getGitConfig('user.email'),
+  defaultComponentId = null;
+
 var PhpComponentGenerator = generators.Base.extend({
 
   init: function () {
@@ -15,8 +23,8 @@ var PhpComponentGenerator = generators.Base.extend({
   prompt_author_infos: function () {
     var done = this.async();
     this.prompt([
-      {type: 'input', name: 'name', message: 'Author name:', default: 'John Doe'},
-      {type: 'input', name: 'email', message: 'Author email:', default: 'johndoe@crakmedia.com'}
+      {type: 'input', name: 'name', message: 'Author name:', default: defaultAuthorName},
+      {type: 'input', name: 'email', message: 'Author email:', default: defaultAuthorEmail}
     ], function (answers) {
       configs.authorName = answers.name;
       configs.authorEmail = answers.email;
@@ -24,10 +32,21 @@ var PhpComponentGenerator = generators.Base.extend({
     }.bind(this));
   },
 
+  prompt_git_infos: function () {
+    var done = this.async();
+    this.prompt([
+      {type: 'input', name: 'url', message: 'Git repository URL:'}
+    ], function (answers) {
+      configs.gitURL = answers.url;
+      defaultComponentId = configs.gitURL.split('/').pop().split('.').shift();
+      done();
+    }.bind(this));
+  },
+
   prompt_component_infos: function () {
     var done = this.async();
     this.prompt([
-      {type: 'input', name: 'id', message: 'Component ID:', default: 'awesome-stuff'},
+      {type: 'input', name: 'id', message: 'Component ID:', default: defaultComponentId},
     ], function (answers) {
       configs.componentId = answers.id;
       var defaultComponentName = answers.id.split('-').map(function (p) {
@@ -43,18 +62,8 @@ var PhpComponentGenerator = generators.Base.extend({
     }.bind(this));
   },
 
-  prompt_git_infos: function () {
-    var done = this.async();
-    this.prompt([
-      {type: 'input', name: 'url', message: 'Git repository URL:'}
-    ], function (answers) {
-      configs.gitURL = answers.url;
-      done();
-    }.bind(this));
-  },
-
   prompt_destination_folder: function () {
-    var defaultDestFolder = configs.gitURL ? configs.gitURL.split('/').pop().split('.').shift() + '-component' : null;
+    var defaultDestFolder = configs.gitURL ? defaultComponentId + '-component' : './';
     var done = this.async();
     this.prompt(
       {type: 'input', name: 'folder', message: 'Destination folder:', default: defaultDestFolder},
@@ -71,16 +80,16 @@ var PhpComponentGenerator = generators.Base.extend({
 
     this.destinationRoot(configs.destFolder);
 
+    if (configs.gitURL.length > 0) {
+      this.copy('gitignore', '.gitignore');
+    }
+
     this.copy('phpunit.xml', 'phpunit.xml.dist');
 
     this.template('composer.json', 'composer.json', configs);
     this.template('README.md', 'README.md', configs);
     this.template('SampleClass.php.txt', 'src/SampleClass.php', configs);
     this.template('SampleUnitTest.php.txt', 'test/Unit/SampleUnitTest.php', configs);
-
-    if (configs.gitURL.length > 0) {
-      this.copy('gitignore', '.gitignore');
-    }
   },
 
   end: function () {
