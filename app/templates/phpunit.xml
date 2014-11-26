@@ -13,7 +13,7 @@
             <directory>test/</directory>
 
             <!-- for manual integration tests -->
-            <exclude>test/Log/Integration/</exclude>
+            <exclude>test/Integration/</exclude>
         </testsuite>
     </testsuites>
     <filter>
