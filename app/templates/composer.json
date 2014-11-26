@@ -1,0 +1,31 @@
+{
+  "name": "crakmedia/<%= componentId %>-component",
+  "license": "proprietary",
+  "require": {
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Crak\\Component\\<%= componentName %>\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Crak\\Component\\<%= componentName %>\\Test\\": "test/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://packagist.crakmedia.lan:1280"
+    }
+  ],
+  "authors": [
+    {
+      "name": "<%= authorName %>",
+      "email": "<%= authorEmail %>"
+    }
+  ]
+}

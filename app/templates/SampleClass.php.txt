@@ -1,0 +1,16 @@
+<?php
+/**
+ * This file is property of crakmedia (http://crakmedia.com)
+ * Created by <%= authorName %> <<%= authorEmail %>>
+ * @copyright 2014 Crakmedia
+ */
+
+namespace <%= srcNamespace %>;
+
+/**
+ * Class SampleClass
+ * @namespace <%= srcNamespace %>
+ */
+class SampleClass {
+
+} 

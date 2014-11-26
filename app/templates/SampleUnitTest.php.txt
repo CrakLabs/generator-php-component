@@ -1,0 +1,19 @@
+<?php
+/**
+ * This file is property of crakmedia (http://crakmedia.com)
+ * Created by <%= authorName %> <<%= authorEmail %>>
+ * @copyright 2014 Crakmedia
+ */
+
+namespace <%= testNamespace %>\Unit;
+
+/**
+ * Class SampleUnitTest
+ * @namespace <%= testNamespace %>\Unit
+ */
+class SampleUnitTest extends \PHPUnit_Framework_TestCase {
+
+    public function testShouldDoSomething() {
+        $this->markTestSkipped();
+    }
+} 
