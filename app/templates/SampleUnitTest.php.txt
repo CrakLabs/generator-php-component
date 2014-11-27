@@ -7,13 +7,23 @@
 
 namespace <%= testNamespace %>\Unit;
 
+use <%= srcNamespace %>\SampleClass;
+use <%= testNamespace %>\Mock\SampleAssertsTrait;
+
 /**
  * Class SampleUnitTest
- * @namespace <%= testNamespace %>\Unit
+ * @package <%= testNamespace %>\Unit
+ * @author <%= authorName %> <<%= authorEmail %>>
  */
-class SampleUnitTest extends \PHPUnit_Framework_TestCase {
+class SampleUnitTest extends \PHPUnit_Framework_TestCase
+{
+    use SampleAssertsTrait;
 
-    public function testShouldDoSomething() {
-        $this->markTestSkipped('TODO');
+    public function testShouldSayHelloToMe()
+    {
+        $obj = new SampleClass();
+
+        $this->assertInstanceOfSampleClass($obj);
+        $this->assertSame('Hello, brice!', $obj->sayHello('brice'));
     }
 } 

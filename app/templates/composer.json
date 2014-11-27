@@ -1,14 +1,17 @@
 {
   "name": "crakmedia/<%= componentId %>-component",
+  "description": "Enter here a short description of the component",
   "license": "proprietary",
   "require": {
+    "php": "~5.4"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.1"
   },
   "autoload": {
     "psr-4": {
-      "Crak\\Component\\<%= componentName %>\\": "src/"
+      "Crak\\Component\\<%= componentName %>\\": "src/",
+      "Crak\\Component\\<%= componentName %>\\Mock\\": "test/Mock"
     }
   },
   "autoload-dev": {

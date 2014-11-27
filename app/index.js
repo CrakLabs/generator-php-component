@@ -91,12 +91,16 @@ var PhpComponentGenerator = generators.Base.extend({
     this.template('README.md', 'README.md', configs);
     this.template('SampleClass.php.txt', 'src/SampleClass.php', configs);
     this.template('SampleUnitTest.php.txt', 'test/Unit/SampleUnitTest.php', configs);
+    this.template('SampleAssertsTrait.php.txt', 'test/Mock/SampleAssertsTrait.php', configs);
   },
 
   end: function () {
-    this.log('\n' + sh.run('composer install'));
+    this.log('\n');
+    this.log(sh.run('composer install'));
 
     if (configs.gitURL.length > 0) {
+
+      //TODO script that part
       var gitCommandToInit = "" +
         "\n\tcd " + this.destinationRoot() + '\\' +
         " && git init" + '\\' +
@@ -104,6 +108,8 @@ var PhpComponentGenerator = generators.Base.extend({
         " && git commit -m 'Initial Commit'" + '\\' +
         " && git remote add origin " + configs.gitURL + '\\' +
         " && git push origin master\n";
+
+      this.log('\n');
       this.log('~~~~ In order to init a new Git repository (copyu/paste) ~~~~\n' + gitCommandToInit);
     }
   }

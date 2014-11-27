@@ -9,8 +9,19 @@ namespace <%= srcNamespace %>;
 
 /**
  * Class SampleClass
- * @namespace <%= srcNamespace %>
+ * @package <%= srcNamespace %>
+ * @author <%= authorName %> <<%= authorEmail %>>
  */
-class SampleClass {
+class SampleClass
+{
+    const CLASS_NAME = __CLASS__;
 
+    /**
+     * @param string $name
+     * @return string
+     */
+    public function sayHello($name)
+    {
+        return sprintf('Hello, %s!', $name);
+    }
 } 

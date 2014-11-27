@@ -1,0 +1,26 @@
+<?php
+/**
+ * This file is property of crakmedia (http://crakmedia.com)
+ * Created by <%= authorName %> <<%= authorEmail %>>
+ * @copyright 2014 Crakmedia
+ */
+
+namespace <%= testNamespace %>\Mock;
+
+use <%= srcNamespace %>\SampleClass;
+
+/**
+ * Class SampleUnitTest
+ * @package <%= testNamespace %>\Mock
+ * @author <%= authorName %> <<%= authorEmail %>>
+ */
+trait SampleAssertsTrait
+{
+    /**
+     * @param mixed $obj
+     */
+    private function assertInstanceOfSampleClass($obj)
+    {
+        $this->assertInstanceOf(SampleClass::CLASS_NAME, $obj);
+    }
+} 
