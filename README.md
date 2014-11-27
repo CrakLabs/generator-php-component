@@ -10,9 +10,10 @@ Please set correctly your global git user configuration for the most efficient u
 
 ## How to install
 
-    npm install yo && cd ~ && rm -rf generator-php-component && \
-    git clone ssh://git@stash.crakmedia.lan:7999/~bcolucci/yeoman-php-component.git generator-php-component && \
-    cd generator-php-component && npm install && sudo npm link && cd -
+    cd ~ && sudo yum install npm nodejs && sudo npm install yo \
+      && rm -rf generator-php-component /lib/node_modules/generator-php-component \
+      && git clone ssh://git@stash.crakmedia.lan:7999/cn/generator-php-component.git \
+      && cd generator-php-component && npm install && sudo npm link && cd -
 
 ## How to use
 
