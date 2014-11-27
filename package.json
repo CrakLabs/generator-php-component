@@ -1,7 +1,9 @@
 {
   "name": "generator-php-component",
-  "version": "0.1.0",
   "description": "Generates a PHP component",
+  "private": true,
+  "version": "0.1.0",
+  "author": "Brice Colucci <bcolucci@crakmedia.com>",
   "keywords": [
     "yeoman-generator",
     "php",
