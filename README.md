@@ -53,6 +53,19 @@ Please set correctly your global git user configuration for the most efficient u
     	&& git remote add origin ssh://git@stash.crakmedia.lan:7999/~bcolucci/awesome-stuff.git\
     	&& git push origin master
 
+At this step the project is ready. You can make a phpunit and start!
+
+    [bcolucci@aws011 ~]$ cd awesome-stuff-component
+    [bcolucci@aws011 ~/awesome-stuff-component]$ phpunit
+    PHPUnit 4.3.5 by Sebastian Bergmann.
+
+    Configuration read from /home/bcolucci/awesome-stuff-component/phpunit.xml.dist
+
+    Time: 69 ms, Memory: 8.25Mb
+
+    OK (1 test, 2 assertions)
+
+    Generating code coverage report in HTML format ... done
 
 ### The project structure will be:
 
@@ -60,9 +73,13 @@ Please set correctly your global git user configuration for the most efficient u
         /src
             SampleClass.php
         /test
+            /Mock
+                SampleAssertsTrait.php
             /Unit
                 SampleUnitTest.php
+        vendor/
         .gitignore
         composer.json
+        composer.lock
         phpunit.xml.dist
         README.md
