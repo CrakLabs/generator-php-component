@@ -79,6 +79,7 @@ var PhpComponentGenerator = generators.Base.extend({
     configs.testNamespace = 'Crak\\Component\\' + configs.componentName + '\\Test';
 
     this.destinationRoot(configs.destFolder);
+    this.log('\n');
 
     if (configs.gitURL.length > 0) {
       this.copy('gitignore', '.gitignore');
@@ -93,7 +94,7 @@ var PhpComponentGenerator = generators.Base.extend({
   },
 
   end: function () {
-    this.log(sh.run('composer install'));
+    this.log('\n' + sh.run('composer install'));
 
     if (configs.gitURL.length > 0) {
       var gitCommandToInit = "" +

@@ -17,5 +17,52 @@ Please set correctly your global git user configuration for the most efficient u
 
 ## How to use
 
-    yo php-component
+    [bcolucci@aws011 ~]$ yo php-component
 
+    ~~~~ PHP Component Generator ~~~~
+    [?] Author name: Brice Colucci
+    [?] Author email: bcolucci@crakmedia.com
+    [?] Git repository URL: ssh://git@stash.crakmedia.lan:7999/~bcolucci/awesome-stuff.git
+    [?] Component ID: awesome-stuff
+    [?] Component name: AwesomeStuff
+    [?] Destination folder: awesome-stuff-component
+
+       create .gitignore
+       create phpunit.xml.dist
+       create composer.json
+       create README.md
+       create src/SampleClass.php
+       create test/Unit/SampleUnitTest.php
+
+    Loading composer repositories with package information
+    Installing dependencies (including require-dev)
+      - Installing sebastian/version (1.0.3)
+        Loading from cache
+
+      [...]
+
+    phpunit/phpunit-mock-objects suggests installing ext-soap (*)
+    phpunit/phpunit suggests installing phpunit/php-invoker (~1.1)
+    Writing lock file
+    Generating autoload files
+
+    ~~~~ In order to init a new Git repository (copyu/paste) ~~~~
+
+    	cd /home/bcolucci/work/generator-php-component/awesome-stuff-component\ && git init\
+    	&& git add --all\ && git commit -m 'Initial Commit'\
+    	&& git remote add origin ssh://git@stash.crakmedia.lan:7999/~bcolucci/awesome-stuff.git\
+    	&& git push origin master
+
+
+### The project structure will be:
+
+    /awesome-stuff-component
+        /src
+            SampleClass.php
+        /test
+            /Unit
+                SampleUnitTest.php
+        .gitignore
+        composer.json
+        phpunit.xml.dist
+        README.md
