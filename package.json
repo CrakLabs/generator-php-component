@@ -2,7 +2,7 @@
   "name": "generator-php-component",
   "description": "Generates a PHP component",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Brice Colucci <bcolucci@crakmedia.com>",
   "keywords": [
     "yeoman-generator",
@@ -10,7 +10,6 @@
     "component"
   ],
   "dependencies": {
-    "yeoman-generator": "~0.17.7",
-    "execSync": "1.0.2"
+    "yeoman-generator": "~0.17.7"
   }
 }

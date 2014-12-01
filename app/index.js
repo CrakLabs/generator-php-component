@@ -2,22 +2,31 @@
 'use strict';
 
 var generators = require('yeoman-generator'),
-  sh = require('execSync');
+  exec = require('child_process').exec;
 
 var configs = {};
 
-var getGitConfig = function (n) {
-  return sh.exec('git config --get ' + n).stdout.trim();
+var getGitConfig = function (n, callback) {
+  exec('git config --get ' + n, callback);
 };
 
-var defaultAuthorName = getGitConfig('user.name'),
-  defaultAuthorEmail = getGitConfig('user.email'),
-  defaultComponentId = null;
+var defaultAuthorName = 'John Doe',
+  defaultAuthorEmail = 'jdoe@crakmedia.com',
+  defaultComponentId = 'awesome-stuff';
 
 var PhpComponentGenerator = generators.Base.extend({
 
   init: function () {
     this.log("\n~~~~ PHP Component Generator ~~~~");
+
+    var done = this.async();
+    getGitConfig('user.name', function (err, name) {
+      defaultAuthorName = name.trim();
+      getGitConfig('user.email', function (err, email) {
+        defaultAuthorEmail = email.trim();
+        done();
+      });
+    });
   },
 
   prompt_author_infos: function () {
@@ -95,8 +104,8 @@ var PhpComponentGenerator = generators.Base.extend({
   },
 
   end: function () {
-    this.log('\n');
-    this.log(sh.run('composer install'));
+
+    exec('composer install');
 
     if (configs.gitURL.length > 0) {
 
@@ -110,7 +119,7 @@ var PhpComponentGenerator = generators.Base.extend({
         " && git push origin master\n";
 
       this.log('\n');
-      this.log('~~~~ In order to init a new Git repository (copyu/paste) ~~~~\n' + gitCommandToInit);
+      this.log('~~~~ In order to init a new Git repository (copy/paste) ~~~~\n' + gitCommandToInit);
     }
   }
 
