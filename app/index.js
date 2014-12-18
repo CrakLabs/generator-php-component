@@ -1,4 +1,4 @@
-// Created by bcolucci on 11/26/14.
+// Created by Brice Colucci <bcolucci@crakmedia.com> on 11/26/14.
 'use strict';
 
 var generators = require('yeoman-generator'),
@@ -11,8 +11,13 @@ var getGitConfig = function (n, callback) {
 };
 
 var defaultAuthorName = 'John Doe',
+  defaultComponentNamespace = 'Company\\Component',
   defaultAuthorEmail = 'jdoe@crakmedia.com',
   defaultComponentId = 'awesome-stuff';
+
+String.prototype.endsWith = function (suffix) {
+  return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
 
 var PhpComponentGenerator = generators.Base.extend({
 
@@ -65,9 +70,16 @@ var PhpComponentGenerator = generators.Base.extend({
         {type: 'input', name: 'name', message: 'Component name:', default: defaultComponentName},
       ], function (answers) {
         configs.componentName = answers.name;
-        done();
+        this.prompt([
+          {type: 'input', name: 'namespace', message: 'Component namespace:', default: defaultComponentNamespace},
+        ], function (answers) {
+          configs.componentNamespace = answers.namespace;
+          if (!configs.componentNamespace.endsWith('\\\\')) {
+            configs.componentNamespace += '\\\\';
+          }
+          done();
+        }.bind(this));
       }.bind(this));
-
     }.bind(this));
   },
 
@@ -84,23 +96,23 @@ var PhpComponentGenerator = generators.Base.extend({
 
   writing: function () {
 
-    configs.srcNamespace = 'Crak\\Component\\' + configs.componentName;
-    configs.testNamespace = 'Crak\\Component\\' + configs.componentName + '\\Test';
+    configs.srcNamespace = configs.componentNamespace + configs.componentName;
+    configs.testNamespace = configs.componentNamespace + configs.componentName + '\\Test';
 
     this.destinationRoot(configs.destFolder);
     this.log('\n');
 
     if (configs.gitURL.length > 0) {
-      this.copy('gitignore', '.gitignore');
+      this.copy('_gitignore', '.gitignore');
     }
 
-    this.copy('phpunit.xml', 'phpunit.xml.dist');
+    this.copy('_phpunit.xml', 'phpunit.xml.dist');
 
-    this.template('composer.json', 'composer.json', configs);
-    this.template('README.md', 'README.md', configs);
-    this.template('SampleClass.php.txt', 'src/SampleClass.php', configs);
-    this.template('SampleUnitTest.php.txt', 'test/Unit/SampleUnitTest.php', configs);
-    this.template('SampleAssertsTrait.php.txt', 'test/Mock/SampleAssertsTrait.php', configs);
+    this.template('_composer.json', 'composer.json', configs);
+    this.template('_README.md', 'README.md', configs);
+    this.template('_SampleClass.php.txt', 'src/SampleClass.php', configs);
+    this.template('_SampleUnitTest.php.txt', 'test/Unit/SampleUnitTest.php', configs);
+    this.template('_SampleAssertsTrait.php.txt', 'test/Mock/SampleAssertsTrait.php', configs);
   },
 
   end: function () {

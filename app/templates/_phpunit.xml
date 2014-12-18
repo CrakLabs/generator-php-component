@@ -12,7 +12,7 @@
         <testsuite>
             <directory>test/</directory>
 
-            <!-- for manual integration tests -->
+            <!-- for manual integration tests: # phpunit test/Integration -->
             <exclude>test/Integration/</exclude>
         </testsuite>
     </testsuites>
