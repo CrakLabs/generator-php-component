@@ -1,0 +1,8 @@
+{
+  "id": "awesome-stuff",
+  "namespace": "Company\\Component",
+  "author": {
+    "name": "John Doe",
+    "email": "jdoe@crakmedia.com"
+  }
+}

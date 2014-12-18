@@ -2,6 +2,7 @@
 'use strict';
 
 var generators = require('yeoman-generator'),
+  fs = require('fs'),
   exec = require('child_process').exec;
 
 var configs = {};
@@ -10,25 +11,22 @@ var getGitConfig = function (n, callback) {
   exec('git config --get ' + n, callback);
 };
 
-var defaultAuthorName = 'John Doe',
-  defaultComponentNamespace = 'Company\\Component',
-  defaultAuthorEmail = 'jdoe@crakmedia.com',
-  defaultComponentId = 'awesome-stuff';
+var defaults = JSON.parse(fs.readFileSync(__dirname + '/defaults.json'));
 
 String.prototype.endsWith = function (suffix) {
   return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-var PhpComponentGenerator = generators.Base.extend({
+module.exports = generators.Base.extend({
 
   init: function () {
     this.log("\n~~~~ PHP Component Generator ~~~~");
 
     var done = this.async();
     getGitConfig('user.name', function (err, name) {
-      defaultAuthorName = name.trim();
+      defaults.author.name = name.trim();
       getGitConfig('user.email', function (err, email) {
-        defaultAuthorEmail = email.trim();
+        defaults.author.email = email.trim();
         done();
       });
     });
@@ -37,8 +35,8 @@ var PhpComponentGenerator = generators.Base.extend({
   prompt_author_infos: function () {
     var done = this.async();
     this.prompt([
-      {type: 'input', name: 'name', message: 'Author name:', default: defaultAuthorName},
-      {type: 'input', name: 'email', message: 'Author email:', default: defaultAuthorEmail}
+      {type: 'input', name: 'name', message: 'Author name:', default: defaults.author.name},
+      {type: 'input', name: 'email', message: 'Author email:', default: defaults.author.email}
     ], function (answers) {
       configs.authorName = answers.name;
       configs.authorEmail = answers.email;
@@ -52,7 +50,7 @@ var PhpComponentGenerator = generators.Base.extend({
       {type: 'input', name: 'url', message: 'Git repository URL:'}
     ], function (answers) {
       configs.gitURL = answers.url;
-      defaultComponentId = configs.gitURL.split('/').pop().split('.').shift();
+      defaults.id = configs.gitURL.split('/').pop().split('.').shift();
       done();
     }.bind(this));
   },
@@ -60,7 +58,7 @@ var PhpComponentGenerator = generators.Base.extend({
   prompt_component_infos: function () {
     var done = this.async();
     this.prompt([
-      {type: 'input', name: 'id', message: 'Component ID:', default: defaultComponentId},
+      {type: 'input', name: 'id', message: 'Component ID:', default: defaults.id},
     ], function (answers) {
       configs.componentId = answers.id;
       var defaultComponentName = answers.id.split('-').map(function (p) {
@@ -71,7 +69,7 @@ var PhpComponentGenerator = generators.Base.extend({
       ], function (answers) {
         configs.componentName = answers.name;
         this.prompt([
-          {type: 'input', name: 'namespace', message: 'Component namespace:', default: defaultComponentNamespace},
+          {type: 'input', name: 'namespace', message: 'Component namespace:', default: defaults.namespace},
         ], function (answers) {
           configs.componentNamespace = answers.namespace;
           if (!configs.componentNamespace.endsWith('\\\\')) {
@@ -84,7 +82,7 @@ var PhpComponentGenerator = generators.Base.extend({
   },
 
   prompt_destination_folder: function () {
-    var defaultDestFolder = configs.gitURL ? defaultComponentId + '-component' : './';
+    var defaultDestFolder = configs.gitURL ? defaults.id + '-component' : './';
     var done = this.async();
     this.prompt(
       {type: 'input', name: 'folder', message: 'Destination folder:', default: defaultDestFolder},
@@ -136,5 +134,3 @@ var PhpComponentGenerator = generators.Base.extend({
   }
 
 });
-
-module.exports = PhpComponentGenerator;
