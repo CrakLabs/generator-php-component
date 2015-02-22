@@ -16,7 +16,7 @@ Please set correctly your global git user configuration for the most efficient u
     yum install npm nodejs
     npm install -g yo
     rm -rf generator-php-component /lib/node_modules/generator-php-component
-    git clone ssh://git@git.repository.lan/cn/generator-php-component.git
+    git clone git@github.com:CrakLabs/generator-php-component.git
     cd generator-php-component
     npm install
     npm link
