@@ -22,7 +22,7 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://apackagist.crakmedia.lan:1280"
+      "url": "http://packagist.crakmedia.lan"
     }
   ],
   "authors": [

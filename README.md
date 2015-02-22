@@ -16,7 +16,7 @@ Please set correctly your global git user configuration for the most efficient u
     yum install npm nodejs
     npm install -g yo
     rm -rf generator-php-component /lib/node_modules/generator-php-component
-    git clone ssh://git@stash.crakmedia.lan:7999/cn/generator-php-component.git
+    git clone ssh://git@git.repository.lan/cn/generator-php-component.git
     cd generator-php-component
     npm install
     npm link
@@ -28,12 +28,12 @@ Please set correctly your global git user configuration for the most efficient u
 
 ## How to use
 
-    [bcolucci@aws011 ~]$ yo php-component
+    [johndoe@workstation ~]$ yo php-component
 
     ~~~~ PHP Component Generator ~~~~
-    [?] Author name: Brice Colucci
-    [?] Author email: bcolucci@crakmedia.com
-    [?] Git repository URL: ssh://git@stash.crakmedia.lan:7999/~bcolucci/awesome-stuff.git
+    [?] Author name: John Doe
+    [?] Author email: johndoe@crakmedia.com
+    [?] Git repository URL: ssh://git@git.repository.lan/~johndoe/awesome-stuff.git
     [?] Component ID: awesome-stuff
     [?] Component name: AwesomeStuff
     [?] Destination folder: awesome-stuff-component
@@ -59,18 +59,18 @@ Please set correctly your global git user configuration for the most efficient u
 
     ~~~~ In order to init a new Git repository (copyu/paste) ~~~~
 
-    	cd /home/bcolucci/work/generator-php-component/awesome-stuff-component\ && git init\
+    	cd /home/johndoe/work/generator-php-component/awesome-stuff-component\ && git init\
     	&& git add --all\ && git commit -m 'Initial Commit'\
-    	&& git remote add origin ssh://git@stash.crakmedia.lan:7999/~bcolucci/awesome-stuff.git\
+    	&& git remote add origin ssh://git@git.repository.lan:7999/~johndoe/awesome-stuff.git\
     	&& git push origin master
 
 At this step the project is ready. You can make a phpunit and start!
 
-    [bcolucci@aws011 ~]$ cd awesome-stuff-component
-    [bcolucci@aws011 ~/awesome-stuff-component]$ phpunit
+    [johndoe@workstation ~]$ cd awesome-stuff-component
+    [johndoe@workstation ~/awesome-stuff-component]$ phpunit
     PHPUnit 4.3.5 by Sebastian Bergmann.
 
-    Configuration read from /home/bcolucci/awesome-stuff-component/phpunit.xml.dist
+    Configuration read from /home/johndoe/awesome-stuff-component/phpunit.xml.dist
 
     Time: 69 ms, Memory: 8.25Mb
 
